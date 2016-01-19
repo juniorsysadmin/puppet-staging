@@ -1,7 +1,7 @@
 # Define resource to extract files from staging directories to target directories.
 define staging::extract (
   $target,              #: the target extraction directory
-  $source      = undef, #: the source compression file, supports tar, tar.gz, zip, war
+  $source      = undef, #: the source compression file, supports gz, tar, tar.gz, zip, war
   $creates     = undef, #: the file created after extraction. if unspecified defaults ${staging::path}/${caller_module_name}/${name} ${target}/${name}
   $unless      = undef, #: alternative way to conditionally check whether to extract file.
   $onlyif      = undef, #: alternative way to conditionally check whether to extract file.
@@ -89,6 +89,10 @@ define staging::extract (
 
     /(.tbz2|.tar.bz2)$/: {
       $command = "tar xjf ${source_path}${strip_opt}"
+    }
+
+    /.gz$/: {
+      $command = "gnzip -dc < ${source_path} > ${creates_path}"
     }
 
     /.zip$/: {
