@@ -92,7 +92,7 @@ define staging::extract (
     }
 
     /.gz$/: {
-      $command = "gnzip -dc < ${source_path} > ${creates_path}"
+      $command = "gunzip -dc < ${source_path} > ${creates_path}"
     }
 
     /.zip$/: {
